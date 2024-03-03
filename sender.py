@@ -8,9 +8,9 @@ import os
 import sys
 
 class sendLoop:
-    def __init__(self,frompath, topath,sleeptime = 30) -> None:
-        self.dbx = cloudStorage("sl.BwsutUdI8gz9LQCYvn__uO1hpw_rzJ8Fxpw-Pt5_De4JMFQ1tzctV04CBcs6PwwuXxAXlWdK4Aq7OuQOdt7HFFMaLjmThiqb5MlMeRqXwDbv6JSWPzkTaR55BD-yoxDaNJItvMcUXH0c4LWHSBty")
-        self.mdb = mongoDB("mongodb+srv://wentaoy19:ywt20010509@cluster0.eb0efzy.mongodb.net/movie-api-db")
+    def __init__(self,dbxtoken,mdbtoken,frompath, topath,sleeptime = 30) -> None:
+        self.dbx = cloudStorage(dbxtoken)
+        self.mdb = mongoDB(mdbtoken)
         self.frompath = frompath
         self.topath = topath
         self.isSent = set()
@@ -31,7 +31,9 @@ class sendLoop:
     
 
 if __name__ == '__main__':
-    dbpath = sys.argv[1]
-    localpath = sys.argv[2]
-    sendloop = sendLoop(localpath, dbpath,5)
+    dbxtoken = sys.argv[1]
+    mdbtoken = sys.argv[2]
+    dbpath = sys.argv[3]
+    localpath = sys.argv[4]
+    sendloop = sendLoop(dbxtoken,mdbtoken,localpath, dbpath,5)
     sendloop.run()    

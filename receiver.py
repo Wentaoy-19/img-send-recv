@@ -10,13 +10,13 @@ import sys
 from crackseg import *
 
 class recvLoop:
-    def __init__(self, cloudpath, savepath,segpath=None, sleeptime = 30) -> None:
+    def __init__(self, dbxtoken,mdbtoken,cloudpath, savepath,segpath=None, sleeptime = 30) -> None:
         self.cloudpath = cloudpath
         self.savepath = savepath
         self.sleeptime = sleeptime
         self.segpath = segpath
-        self.dbx = cloudStorage("sl.BwsutUdI8gz9LQCYvn__uO1hpw_rzJ8Fxpw-Pt5_De4JMFQ1tzctV04CBcs6PwwuXxAXlWdK4Aq7OuQOdt7HFFMaLjmThiqb5MlMeRqXwDbv6JSWPzkTaR55BD-yoxDaNJItvMcUXH0c4LWHSBty")
-        self.mdb = mongoDB("mongodb+srv://wentaoy19:ywt20010509@cluster0.eb0efzy.mongodb.net/movie-api-db")
+        self.dbx = cloudStorage(dbxtoken)
+        self.mdb = mongoDB(mdbtoken)
         return 
     def run(self):
         while(1):
@@ -31,11 +31,13 @@ class recvLoop:
     
 
 if __name__ == '__main__':
-    dbpath = sys.argv[1]
-    localpath = sys.argv[2]
-    if(len(sys.argv)>3):
-        segpath = sys.argv[3]
+    dbxtoken = sys.argv[1]
+    mdbtoken = sys.argv[2]
+    dbpath = sys.argv[3]
+    localpath = sys.argv[4]
+    if(len(sys.argv)>5):
+        segpath = sys.argv[6]
     else:
         segpath = None
-    recvloop = recvLoop(dbpath, localpath,segpath,5)
+    recvloop = recvLoop(dbxtoken,mdbtoken,dbpath, localpath,segpath,5)
     recvloop.run()
