@@ -21,7 +21,7 @@ class sendLoop:
         while(1):
             filelist = os.listdir(self.frompath)
             for file in filelist:
-                if(file not in self.isSent):
+                if(file not in self.isSent and file.split(".")[-1]=="jpg"):
                     ret = self.dbx.upload(fromPath=f"{self.frompath}/{file}", toPath=f"{self.topath}/{file}")
                     if(ret == 0):
                         # Need to figure out Camera id here
