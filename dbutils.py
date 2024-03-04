@@ -8,26 +8,42 @@ import os
 
 import logging
 
+
+class logger():
+    def __init__(self,path) -> None:
+        fmt = logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s', '%Y-%m-%d %H:%M:%S')        
+        self.logger = logging.getLogger(path)
+        self.logger.setLevel(logging.DEBUG)
+        sh = logging.StreamHandler()
+        sh.setFormatter(fmt)
+        sh.setLevel(logging.DEBUG)
+        self.logger.addHandler(sh)
+    def info(self,msg):
+        self.logger.info(msg)
+    def error(self,msg):
+        self.logger.error(msg)
+
 class cloudStorage:
     def __init__(self,token) -> None:
         self.token = token
         self.dbx = dropbox.Dropbox(token)
+        self.logger = logger("cloudstorage")
     def upload(self,fromPath, toPath):
         self.dbx = dropbox.Dropbox(self.token)
         with open(fromPath,'rb') as fp:
             tmp = fp.read()
             try:
                 retval = self.dbx.files_upload(tmp,toPath)
-                print(retval)
+                self.logger.info(f"SUCCESSFUL UPLOAD: {fromPath}")
                 return 0
             except:
-                print("ERROR UPLOAD")
+                self.logger.error(f"ERROR IN UPLOAD: {fromPath}")
                 return -1
     def download(self, toPath, fromPath):
         try:
             me, res = self.dbx.files_download(fromPath)
         except:
-            print("ERROR DOWNLOAD")
+            self.logger.error(f"ERROR IN DOWNLOAD: {fromPath}")
             return -1
         with open(toPath + f"/{me.name}",'wb') as fpout:
             fpout.write(res.content)
