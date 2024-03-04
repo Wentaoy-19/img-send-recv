@@ -6,6 +6,8 @@ from datetime import datetime
 import time
 import os 
 
+import logging
+
 class cloudStorage:
     def __init__(self,token) -> None:
         self.token = token
@@ -42,14 +44,22 @@ class mongoDB:
         self.client = MongoClient(connstr)
         self.db = self.client['bridgedb']
         self.collections = self.db['expbeam']
-    def insert(self,imgpath, camid):
+    def insert(self,frompath,imgpath, camid):
         pkg = {
             "time": datetime.now(),
+            "frompath": frompath,
             "imgpath": imgpath,
             "camid": camid,
             "is_read": False        
         }
         self.collections.insert_one(pkg)
+    def InitSendSet(self,sendSet):
+        c = self.collections.find({"is_read": True})
+        for item in c:
+            path = item['frompath']
+            name = path.split("/")[-1]
+            sendSet.add(name)
+        return
     def findall(self):
         ret = []
         c = self.collections.find({"is_read":False})

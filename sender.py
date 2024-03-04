@@ -15,6 +15,7 @@ class sendLoop:
         self.topath = topath
         self.isSent = set()
         self.sleeptime = sleeptime
+        self.mdb.InitSendSet(self.isSent)
         return 
     def run(self):
         while(1):
@@ -24,7 +25,7 @@ class sendLoop:
                     ret = self.dbx.upload(fromPath=f"{self.frompath}/{file}", toPath=f"{self.topath}/{file}")
                     if(ret == 0):
                         # Need to figure out Camera id here
-                        self.mdb.insert(imgpath=f"{self.topath}/{file}", camid=0)
+                        self.mdb.insert(frompath=f"{self.frompath}/{file}" ,imgpath=f"{self.topath}/{file}", camid=0)
                         self.isSent.add(file)
             time.sleep(self.sleeptime)
         return
