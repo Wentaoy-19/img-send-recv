@@ -42,7 +42,7 @@ class cloudStorage:
     def download(self, toPath, fromPath):
         try:
             me, res = self.dbx.files_download(fromPath)
-            self.logger.error(f"SUCCESSFUL IN DOWNLOAD: {toPath}/{me.name}")
+            self.logger.info(f"SUCCESSFUL IN DOWNLOAD: {toPath}/{me.name}")
         except:
             self.logger.error(f"ERROR IN DOWNLOAD: {toPath}/{me.name}")
             return -1
