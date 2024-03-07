@@ -7,7 +7,8 @@ import time
 import os 
 
 import logging
-
+APP_KEY = "jx0s5tspq7evna3"
+APP_SECRET = "o6kwwa6gb28v51b"
 
 class logger():
     def __init__(self,path) -> None:
@@ -26,7 +27,11 @@ class logger():
 class cloudStorage:
     def __init__(self,token) -> None:
         self.token = token
-        self.dbx = dropbox.Dropbox(token)
+        self.dbx = dropbox.Dropbox(
+                    app_key=APP_KEY,
+                    app_secret=APP_SECRET,
+                    oauth2_refresh_token=token
+                    )
         self.logger = logger("cloudstorage")
     def upload(self,fromPath, toPath):
         self.dbx = dropbox.Dropbox(self.token)
