@@ -81,6 +81,7 @@ except Exception as e:
 #                      oauth2_refresh_token=oauth_result.refresh_token,
 #                      app_key=APP_KEY,
 #                      app_secret=APP_SECRET) as dbx:
+print(oauth_result.access_token)
 print(oauth_result.expires_at)
 print(oauth_result.refresh_token)
 with dropbox.Dropbox(oauth2_refresh_token=oauth_result.refresh_token,

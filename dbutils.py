@@ -27,23 +27,19 @@ class logger():
 class cloudStorage:
     def __init__(self,token) -> None:
         self.token = token
-        self.dbx = dropbox.Dropbox(
-                    app_key=APP_KEY,
-                    app_secret=APP_SECRET,
-                    oauth2_refresh_token=token
-                    )
+        self.dbx = dropbox.Dropbox(token)
         self.logger = logger("cloudstorage")
     def upload(self,fromPath, toPath):
         self.dbx = dropbox.Dropbox(self.token)
         with open(fromPath,'rb') as fp:
             tmp = fp.read()
-            try:
-                retval = self.dbx.files_upload(tmp,toPath)
-                self.logger.info(f"SUCCESSFUL UPLOAD: {fromPath}")
-                return 0
-            except:
-                self.logger.error(f"ERROR IN UPLOAD: {fromPath}")
-                return -1
+            # try:
+            retval = self.dbx.files_upload(tmp,toPath)
+            self.logger.info(f"SUCCESSFUL UPLOAD: {fromPath}")
+            return 0
+            # except:
+            #     self.logger.error(f"ERROR IN UPLOAD: {fromPath}")
+            #     return -1
     def download(self, toPath, fromPath):
         try:
             me, res = self.dbx.files_download(fromPath)
